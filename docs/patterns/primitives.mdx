@@ -1,0 +1,29 @@
+# Primitives
+
+## What This Pattern Is
+
+Small components for controlled irregularity: text, buttons, panels, and stacks.
+
+## Components
+
+- `TextBlock`: type with mood-based rhythm.
+- `ButtonWarp`: button with irregular padding and custom easing.
+- `PanelTilt`: container with restrained tilt.
+- `StackOffset`: stacked layout with controlled offsets.
+
+## Code
+
+```tsx
+import { ButtonWarp, PanelTilt, StackOffset, TextBlock } from 'hvn-anti-ai-ui';
+
+export function PrimitiveSet() {
+  return (
+    <StackOffset>
+      <PanelTilt>
+        <TextBlock title="A panel with intent">Useful friction beats default smoothness.</TextBlock>
+        <ButtonWarp variant="signal">Commit the choice</ButtonWarp>
+      </PanelTilt>
+    </StackOffset>
+  );
+}
+```

@@ -1,0 +1,39 @@
+# Landing Patterns
+
+## What This Pattern Is
+
+Landing patterns for pages that need a strong first impression without falling into centered hero plus three-card grid.
+
+## What Generic AI Would Do Instead
+
+It would center the headline, add a purple gradient, place three equal feature cards below it, and use vague words like "seamless" or "powerful."
+
+## What We Do Instead
+
+`AntiHero` uses a non-centered focal point. `OffsetFeatureStrip` gives features different widths and vertical offsets. `ZigZagNarrative` lets proof and narrative interrupt symmetry.
+
+## Code
+
+```tsx
+import { AntiHero, OffsetFeatureStrip, ZigZagNarrative } from 'hvn-anti-ai-ui';
+
+export function LandingPage() {
+  return (
+    <>
+      <AntiHero title="Debug the real session">
+        Show the user's actual evidence before the pitch.
+      </AntiHero>
+      <OffsetFeatureStrip features={features} />
+      <ZigZagNarrative items={items} />
+    </>
+  );
+}
+```
+
+## When To Use It
+
+Use it when the product has real proof, workflow detail, or a point of view.
+
+## When Not To Use It
+
+Do not use it when convention matters more than character, such as a regulated form flow where clarity should be extremely standard.

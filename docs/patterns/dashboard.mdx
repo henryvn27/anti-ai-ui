@@ -1,0 +1,28 @@
+# Dashboard Patterns
+
+## What This Pattern Is
+
+Dashboard patterns that make priority and operational risk visible.
+
+## What Generic AI Would Do Instead
+
+It would make every widget equal, use four metric cards in a row, and fill the screen with decorative charts.
+
+## What We Do Instead
+
+`AsymGridShell` creates big-small-negative-space composition. `LopsidedMetricCard` makes one value dominant. `SkewedTimeline` varies rhythm so time does not look like filler.
+
+## Code
+
+```tsx
+import { AsymGridShell, LopsidedMetricCard, SkewedTimeline } from 'hvn-anti-ai-ui';
+
+export function OpsDashboard() {
+  return (
+    <AsymGridShell aside={<SkewedTimeline items={timeline} />}>
+      <LopsidedMetricCard label="At risk" value="17" emphasis="critical" />
+      <LopsidedMetricCard label="Clean" value="82%" />
+    </AsymGridShell>
+  );
+}
+```
