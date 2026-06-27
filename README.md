@@ -8,6 +8,7 @@ It complements ORCA and HVN Stack: ORCA keeps workflow loops, HVN Stack routes t
 
 - CSS-in-JS React components built with Emotion and TypeScript
 - Theme tokens for irregular spacing, hand-tuned typography, custom easing, and non-default color
+- Theme Factory presets for applying an opinionated palette, font stack, and rhythm to generated artifacts
 - Landing-page patterns, dashboard patterns, and modular primitives
 - A Vite documentation site with live examples and copy-paste code
 - Guides for avoiding generic AI-looking UI and generic AI-sounding microcopy
@@ -96,6 +97,23 @@ Primitives:
 - `ButtonWarp`
 - `PanelTilt`
 - `StackOffset`
+
+Theme Factory:
+
+- `themeFactoryPresets`
+- `createAntiTheme`
+- `themeToCssVars`
+
+## Theme Factory
+
+HVN Anti-AI UI includes a small Theme Factory inspired by Anthropic's Apache-2.0 `theme-factory` skill. This repo does not vendor the upstream skill; it adapts the workflow into typed UI presets for anti-AI interfaces.
+
+```tsx
+import { createAntiTheme, themeToCssVars } from 'hvn-anti-ai-ui';
+
+const theme = createAntiTheme('operator');
+const vars = themeToCssVars(theme);
+```
 
 ## ORCA / HVN Transition
 

@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import type { CSSProperties } from 'react';
 import { useMemo, useState } from 'react';
 import {
   AntiHero,
@@ -12,11 +13,14 @@ import {
   TextBlock,
   ZigZagNarrative,
   color,
+  createAntiTheme,
   spacing,
+  themeFactoryPresets,
+  themeToCssVars,
   typography
 } from '../src';
 
-type Route = 'start' | 'philosophy' | 'landing' | 'dashboard' | 'primitives' | 'showcases' | 'guides';
+type Route = 'start' | 'philosophy' | 'landing' | 'dashboard' | 'primitives' | 'showcases' | 'themes' | 'guides';
 
 const routes: { id: Route; label: string }[] = [
   { id: 'start', label: 'Getting Started' },
@@ -25,6 +29,7 @@ const routes: { id: Route; label: string }[] = [
   { id: 'dashboard', label: 'Dashboard Patterns' },
   { id: 'primitives', label: 'Primitives' },
   { id: 'showcases', label: 'Showcases' },
+  { id: 'themes', label: 'Theme Factory' },
   { id: 'guides', label: 'Guides' }
 ];
 
@@ -230,6 +235,96 @@ const DenseRows = styled.div`
     div {
       grid-template-columns: 1fr;
     }
+  }
+`;
+
+const ThemeFactoryGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: ${spacing.md};
+  margin: ${spacing.xl} 0;
+
+  @media (max-width: 980px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const ThemeSpecimen = styled.article`
+  min-height: 27rem;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  border: 1px solid var(--anti-line);
+  background: var(--anti-paper);
+  color: var(--anti-ink);
+
+  header {
+    padding: var(--anti-card-rhythm);
+    border-bottom: 1px solid var(--anti-line);
+    background: var(--anti-surface);
+  }
+
+  h3 {
+    max-width: 12ch;
+    margin: 0 0 0.8rem;
+    font-family: var(--anti-font-display);
+    font-size: clamp(1.75rem, 3vw, 2.8rem);
+    line-height: 0.9;
+  }
+
+  p {
+    margin: 0;
+    color: var(--anti-muted);
+    font-family: var(--anti-font-body);
+    line-height: ${typography.leading.body};
+  }
+`;
+
+const ThemeBody = styled.div`
+  display: grid;
+  gap: var(--anti-detail-rhythm);
+  align-content: start;
+  padding: var(--anti-card-rhythm);
+
+  span {
+    width: 100%;
+    min-height: 3.4rem;
+    border: 1px solid var(--anti-line);
+  }
+
+  span:nth-of-type(1) {
+    background: var(--anti-ink);
+  }
+
+  span:nth-of-type(2) {
+    background: var(--anti-surface);
+  }
+
+  span:nth-of-type(3) {
+    background: var(--anti-accent);
+  }
+
+  small {
+    color: var(--anti-muted);
+    font-family: var(--anti-font-mono);
+    font-size: ${typography.scale.micro};
+    letter-spacing: ${typography.tracking.label};
+    text-transform: uppercase;
+  }
+`;
+
+const ThemeFooter = styled.footer`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: var(--anti-card-rhythm);
+  border-top: 1px solid var(--anti-line);
+
+  span {
+    padding: 0.42rem 0.58rem;
+    background: var(--anti-accent);
+    color: var(--anti-paper);
+    font-family: var(--anti-font-mono);
+    font-size: ${typography.scale.micro};
   }
 `;
 
@@ -530,6 +625,64 @@ export function ComplianceIntake() {
   );
 }
 
+function ThemeFactory() {
+  const operatorTheme = createAntiTheme('operator');
+  const code = `import { createAntiTheme, themeToCssVars } from 'hvn-anti-ai-ui';
+
+const theme = createAntiTheme('operator');
+const vars = themeToCssVars(theme);`;
+
+  return (
+    <Page>
+      <h2>Theme Factory</h2>
+      <p>
+        Named theme packs apply anti-AI palette, typography, and rhythm choices to generated artifacts. The workflow borrows the choose-then-apply
+        discipline from Anthropic's Theme Factory skill and turns it into typed React tokens.
+      </p>
+      <ThemeFactoryGrid>
+        {(Object.keys(themeFactoryPresets) as Array<keyof typeof themeFactoryPresets>).map((name) => {
+          const theme = themeFactoryPresets[name];
+          return (
+            <ThemeSpecimen key={name} style={themeToCssVars(theme) as CSSProperties}>
+              <header>
+                <h3>{theme.name}</h3>
+                <p>{theme.description}</p>
+              </header>
+              <ThemeBody>
+                <small>palette</small>
+                <span />
+                <span />
+                <span />
+                <small>{theme.rhythm.section}</small>
+              </ThemeBody>
+              <ThemeFooter>
+                {theme.bestFor.map((item) => (
+                  <span key={item}>{item}</span>
+                ))}
+              </ThemeFooter>
+            </ThemeSpecimen>
+          );
+        })}
+      </ThemeFactoryGrid>
+      <DemoFrame>
+        <AsymGridShell
+          aside={
+            <PanelTilt>
+              <TextBlock title={operatorTheme.name} mood="dense">
+                {operatorTheme.description}
+              </TextBlock>
+            </PanelTilt>
+          }
+        >
+          <LopsidedMetricCard label="Preset count" value="3" detail="Operator, botanical, and midnight packs ship with typed usage notes." />
+          <LopsidedMetricCard label="Output" value="CSS vars" detail="Apply the selected visual system to a page, deck export, or generated HTML surface." emphasis="quiet" />
+        </AsymGridShell>
+      </DemoFrame>
+      <Code>{code}</Code>
+    </Page>
+  );
+}
+
 function Guides() {
   return (
     <Page>
@@ -559,6 +712,7 @@ export function App() {
     if (route === 'dashboard') return <Dashboard />;
     if (route === 'primitives') return <Primitives />;
     if (route === 'showcases') return <Showcases />;
+    if (route === 'themes') return <ThemeFactory />;
     if (route === 'guides') return <Guides />;
     return <Start />;
   }, [route]);

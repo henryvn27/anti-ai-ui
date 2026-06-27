@@ -7,3 +7,5 @@ export type { AntiSpacing } from './spacing';
 export { layout } from './layout';
 export { typography } from './typography';
 export type { TextMood } from './typography';
+export { createAntiTheme, themeFactoryPresets, themeToCssVars } from './themeFactory';
+export type { AntiTheme, AntiThemeName } from './themeFactory';
