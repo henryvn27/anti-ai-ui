@@ -1,16 +1,18 @@
 # HVN Anti-AI UI
 
-HVN Anti-AI UI is a React component library for builders who want interfaces that feel intentionally designed rather than assembled from generic AI frontend defaults.
+HVN Anti-AI UI is the HVN Stack home for interfaces that should feel intentionally designed rather than assembled from generic AI frontend defaults.
 
-It complements `hvn-framework`: HVN runs authenticity preflight; this library provides concrete UI patterns and writing guidance that apply that calibration in React.
+It complements ORCA and HVN Stack: ORCA keeps workflow loops, HVN Stack routes tools, and this repo owns anti-AI UI patterns, examples, and writing guidance.
 
 ## What It Includes
 
 - CSS-in-JS React components built with Emotion and TypeScript
 - Theme tokens for irregular spacing, hand-tuned typography, custom easing, and non-default color
+- Theme Factory presets for applying an opinionated palette, font stack, and rhythm to generated artifacts
 - Landing-page patterns, dashboard patterns, and modular primitives
 - A Vite documentation site with live examples and copy-paste code
 - Guides for avoiding generic AI-looking UI and generic AI-sounding microcopy
+- ORCA/HVN transition guidance for moving anti-AI UI rules out of workflow repos
 
 ## Install
 
@@ -68,6 +70,13 @@ The library avoids common generic frontend patterns:
 
 The replacement is not randomness. Components use asymmetry, irregular rhythm, real hierarchy, and grounded wording in controlled ways.
 
+## HVN Stack Boundary
+
+- ORCA should keep only routing and review hooks.
+- HVN Stack should list this repo as the anti-AI UI capability.
+- Detailed anti-AI UI rules, reusable React patterns, and examples belong here.
+- Other ORCA specialty surfaces can split into distinct repos when they become reusable products, libraries, or opinionated packs.
+
 ## Components
 
 Landing:
@@ -88,6 +97,27 @@ Primitives:
 - `ButtonWarp`
 - `PanelTilt`
 - `StackOffset`
+
+Theme Factory:
+
+- `themeFactoryPresets`
+- `createAntiTheme`
+- `themeToCssVars`
+
+## Theme Factory
+
+HVN Anti-AI UI includes a small Theme Factory inspired by Anthropic's Apache-2.0 `theme-factory` skill. This repo does not vendor the upstream skill; it adapts the workflow into typed UI presets for anti-AI interfaces.
+
+```tsx
+import { createAntiTheme, themeToCssVars } from 'hvn-anti-ai-ui';
+
+const theme = createAntiTheme('operator');
+const vars = themeToCssVars(theme);
+```
+
+## ORCA / HVN Transition
+
+See [docs/orca-hvn-transition.mdx](docs/orca-hvn-transition.mdx).
 
 ## Contributing
 

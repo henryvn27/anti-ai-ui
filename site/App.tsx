@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import type { CSSProperties } from 'react';
 import { useMemo, useState } from 'react';
 import {
   AntiHero,
@@ -12,11 +13,14 @@ import {
   TextBlock,
   ZigZagNarrative,
   color,
+  createAntiTheme,
   spacing,
+  themeFactoryPresets,
+  themeToCssVars,
   typography
 } from '../src';
 
-type Route = 'start' | 'philosophy' | 'landing' | 'dashboard' | 'primitives' | 'guides';
+type Route = 'start' | 'philosophy' | 'landing' | 'dashboard' | 'primitives' | 'showcases' | 'themes' | 'guides';
 
 const routes: { id: Route; label: string }[] = [
   { id: 'start', label: 'Getting Started' },
@@ -24,6 +28,8 @@ const routes: { id: Route; label: string }[] = [
   { id: 'landing', label: 'Landing Patterns' },
   { id: 'dashboard', label: 'Dashboard Patterns' },
   { id: 'primitives', label: 'Primitives' },
+  { id: 'showcases', label: 'Showcases' },
+  { id: 'themes', label: 'Theme Factory' },
   { id: 'guides', label: 'Guides' }
 ];
 
@@ -126,6 +132,199 @@ const GuideGrid = styled.div`
 
   @media (max-width: 820px) {
     grid-template-columns: 1fr;
+  }
+`;
+
+const ShowcaseGrid = styled.div`
+  display: grid;
+  gap: clamp(1.2rem, 3vw, 2.2rem);
+  margin-top: ${spacing.xl};
+`;
+
+const ShowcaseFrame = styled.article`
+  border: 1px solid ${color.line};
+  background: ${color.paper};
+
+  > header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: end;
+    padding: clamp(1rem, 3vw, 2rem);
+    border-bottom: 1px solid ${color.line};
+    background: ${color.chalk};
+  }
+
+  h3 {
+    max-width: 16ch;
+    margin: 0;
+    font-family: ${typography.fontDisplay};
+    font-size: clamp(1.9rem, 4.5vw, 3.8rem);
+    line-height: 0.94;
+    letter-spacing: ${typography.tracking.tight};
+  }
+
+  small {
+    color: ${color.oxblood};
+    font-family: ${typography.fontMono};
+    font-size: ${typography.scale.micro};
+    letter-spacing: ${typography.tracking.label};
+    text-align: right;
+  }
+
+  @media (max-width: 760px) {
+    > header {
+      grid-template-columns: 1fr;
+    }
+
+    small {
+      text-align: left;
+    }
+  }
+`;
+
+const MockWindow = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 0.78fr;
+  gap: ${spacing.lg};
+  padding: clamp(1rem, 3vw, 2rem);
+  background:
+    linear-gradient(135deg, rgba(71, 91, 59, 0.14), transparent 48%),
+    ${color.paperDeep};
+
+  @media (max-width: 920px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const SignalStrip = styled.div`
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+  font-family: ${typography.fontMono};
+  font-size: ${typography.scale.caption};
+
+  span {
+    display: block;
+    padding: 0.75rem 0.9rem;
+    background: ${color.chalk};
+    border-left: 2px solid ${color.oxblood};
+  }
+`;
+
+const DenseRows = styled.div`
+  display: grid;
+  gap: 0.45rem;
+
+  div {
+    display: grid;
+    grid-template-columns: 6rem minmax(0, 1fr) auto;
+    gap: 0.8rem;
+    padding: 0.72rem 0.85rem;
+    background: ${color.chalk};
+    color: ${color.ink};
+    font-family: ${typography.fontMono};
+    font-size: ${typography.scale.caption};
+  }
+
+  strong {
+    color: ${color.oxblood};
+  }
+
+  @media (max-width: 680px) {
+    div {
+      grid-template-columns: 1fr;
+    }
+  }
+`;
+
+const ThemeFactoryGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: ${spacing.md};
+  margin: ${spacing.xl} 0;
+
+  @media (max-width: 980px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const ThemeSpecimen = styled.article`
+  min-height: 27rem;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  border: 1px solid var(--anti-line);
+  background: var(--anti-paper);
+  color: var(--anti-ink);
+
+  header {
+    padding: var(--anti-card-rhythm);
+    border-bottom: 1px solid var(--anti-line);
+    background: var(--anti-surface);
+  }
+
+  h3 {
+    max-width: 12ch;
+    margin: 0 0 0.8rem;
+    font-family: var(--anti-font-display);
+    font-size: clamp(1.75rem, 3vw, 2.8rem);
+    line-height: 0.9;
+  }
+
+  p {
+    margin: 0;
+    color: var(--anti-muted);
+    font-family: var(--anti-font-body);
+    line-height: ${typography.leading.body};
+  }
+`;
+
+const ThemeBody = styled.div`
+  display: grid;
+  gap: var(--anti-detail-rhythm);
+  align-content: start;
+  padding: var(--anti-card-rhythm);
+
+  span {
+    width: 100%;
+    min-height: 3.4rem;
+    border: 1px solid var(--anti-line);
+  }
+
+  span:nth-of-type(1) {
+    background: var(--anti-ink);
+  }
+
+  span:nth-of-type(2) {
+    background: var(--anti-surface);
+  }
+
+  span:nth-of-type(3) {
+    background: var(--anti-accent);
+  }
+
+  small {
+    color: var(--anti-muted);
+    font-family: var(--anti-font-mono);
+    font-size: ${typography.scale.micro};
+    letter-spacing: ${typography.tracking.label};
+    text-transform: uppercase;
+  }
+`;
+
+const ThemeFooter = styled.footer`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: var(--anti-card-rhythm);
+  border-top: 1px solid var(--anti-line);
+
+  span {
+    padding: 0.42rem 0.58rem;
+    background: var(--anti-accent);
+    color: var(--anti-paper);
+    font-family: var(--anti-font-mono);
+    font-size: ${typography.scale.micro};
   }
 `;
 
@@ -303,6 +502,187 @@ export function PrimitiveSet() {
   );
 }
 
+function Showcases() {
+  const releaseCode = `import { AsymGridShell, LopsidedMetricCard, PanelTilt, SkewedTimeline, TextBlock } from 'hvn-anti-ai-ui';
+
+export function ReleaseRoom() {
+  return (
+    <AsymGridShell aside={<SkewedTimeline items={releaseEvents} />}>
+      <PanelTilt tone="blue">
+        <TextBlock title="Review can start">The reviewer path, privacy URL, and paywall proof are in one room.</TextBlock>
+      </PanelTilt>
+      <LopsidedMetricCard label="Blockers" value="2" detail="Restore purchase screenshot and demo login still missing." emphasis="critical" />
+    </AsymGridShell>
+  );
+}`;
+
+  const intakeCode = `import { PanelTilt, StackOffset, TextBlock, ButtonWarp } from 'hvn-anti-ai-ui';
+
+export function ComplianceIntake() {
+  return (
+    <StackOffset>
+      <PanelTilt>
+        <TextBlock title="No vague permission prompts">Every requested capability needs a plain-language reason.</TextBlock>
+        <ButtonWarp variant="signal">Send to review</ButtonWarp>
+      </PanelTilt>
+    </StackOffset>
+  );
+}`;
+
+  return (
+    <Page>
+      <h2>Showcases</h2>
+      <p>Composed screens that show the library's range: release rooms, compliance intake, and launch narratives without default SaaS layouts.</p>
+      <ShowcaseGrid>
+        <ShowcaseFrame>
+          <header>
+            <h3>App release room</h3>
+            <small>operator dashboard</small>
+          </header>
+          <MockWindow>
+            <AsymGridShell
+              aside={
+                <SkewedTimeline
+                  items={[
+                    { time: '09:12', title: 'Build uploaded', body: 'Version 1.8 is available for internal review.' },
+                    { time: '09:34', title: 'Privacy mismatch', body: 'Camera purpose string no longer matches the capture flow.' },
+                    { time: '10:05', title: 'Reviewer path added', body: 'Demo login and paywall notes now point to exact screens.' }
+                  ]}
+                />
+              }
+              footer={<LopsidedMetricCard label="Ready when" value="2" detail="Screenshots are refreshed and restore purchase proof is attached." emphasis="quiet" />}
+            >
+              <PanelTilt tone="blue">
+                <TextBlock title="Review can start" mood="dense">
+                  One view holds the binary state, reviewer notes, privacy links, and sensitive screenshots.
+                </TextBlock>
+              </PanelTilt>
+              <LopsidedMetricCard label="Blockers" value="2" detail="Restore purchase screenshot and demo login still missing." emphasis="critical" />
+            </AsymGridShell>
+          </MockWindow>
+          <Code>{releaseCode}</Code>
+        </ShowcaseFrame>
+
+        <ShowcaseFrame>
+          <header>
+            <h3>Compliance intake</h3>
+            <small>review flow</small>
+          </header>
+          <MockWindow>
+            <StackOffset>
+              <PanelTilt>
+                <TextBlock title="No vague permission prompts">
+                  Every requested capability needs a plain-language reason, matching product behavior and App Store metadata.
+                </TextBlock>
+                <ButtonWarp variant="signal">Send to review</ButtonWarp>
+              </PanelTilt>
+              <PanelTilt tilt="left" tone="moss">
+                <TextBlock title="Sensitive flows stay visible" mood="dense">
+                  Account deletion, restore purchases, and data export proof sit beside the review decision.
+                </TextBlock>
+              </PanelTilt>
+            </StackOffset>
+            <DenseRows>
+              <div><strong>Camera</strong><span>Used only for receipt capture</span><span>specific</span></div>
+              <div><strong>Account</strong><span>Delete path shown in Settings</span><span>ready</span></div>
+              <div><strong>IAP</strong><span>Restore control needs screenshot</span><span>missing</span></div>
+            </DenseRows>
+          </MockWindow>
+          <Code>{intakeCode}</Code>
+        </ShowcaseFrame>
+
+        <ShowcaseFrame>
+          <header>
+            <h3>Launch narrative</h3>
+            <small>marketing page</small>
+          </header>
+          <AntiHero
+            title="Ship the truth, not the pitch"
+            actionLabel="Open evidence"
+            secondaryLabel="Read release notes"
+            align="right"
+            proof="The hero carries concrete proof: affected workflow, release state, and why the update matters."
+            visual={
+              <SignalStrip>
+                <span>Build 24 passed device smoke</span>
+                <span>Privacy manifest matches permissions</span>
+                <span>Support URL checked at 10:40</span>
+              </SignalStrip>
+            }
+          >
+            A launch page can feel designed without hiding the operational facts that make the release credible.
+          </AntiHero>
+          <OffsetFeatureStrip
+            features={[
+              { title: 'Proof before promise', body: 'The first section names the exact workflow fixed, not a broad claim.', weight: 'wide' },
+              { title: 'Copy with receipts', body: 'Release language points to screenshots, review notes, and support paths.' },
+              { title: 'Asymmetry with intent', body: 'The evidence panel interrupts the hero because it is the point.', weight: 'tall' }
+            ]}
+          />
+        </ShowcaseFrame>
+      </ShowcaseGrid>
+    </Page>
+  );
+}
+
+function ThemeFactory() {
+  const operatorTheme = createAntiTheme('operator');
+  const code = `import { createAntiTheme, themeToCssVars } from 'hvn-anti-ai-ui';
+
+const theme = createAntiTheme('operator');
+const vars = themeToCssVars(theme);`;
+
+  return (
+    <Page>
+      <h2>Theme Factory</h2>
+      <p>
+        Named theme packs apply anti-AI palette, typography, and rhythm choices to generated artifacts. The workflow borrows the choose-then-apply
+        discipline from Anthropic's Theme Factory skill and turns it into typed React tokens.
+      </p>
+      <ThemeFactoryGrid>
+        {(Object.keys(themeFactoryPresets) as Array<keyof typeof themeFactoryPresets>).map((name) => {
+          const theme = themeFactoryPresets[name];
+          return (
+            <ThemeSpecimen key={name} style={themeToCssVars(theme) as CSSProperties}>
+              <header>
+                <h3>{theme.name}</h3>
+                <p>{theme.description}</p>
+              </header>
+              <ThemeBody>
+                <small>palette</small>
+                <span />
+                <span />
+                <span />
+                <small>{theme.rhythm.section}</small>
+              </ThemeBody>
+              <ThemeFooter>
+                {theme.bestFor.map((item) => (
+                  <span key={item}>{item}</span>
+                ))}
+              </ThemeFooter>
+            </ThemeSpecimen>
+          );
+        })}
+      </ThemeFactoryGrid>
+      <DemoFrame>
+        <AsymGridShell
+          aside={
+            <PanelTilt>
+              <TextBlock title={operatorTheme.name} mood="dense">
+                {operatorTheme.description}
+              </TextBlock>
+            </PanelTilt>
+          }
+        >
+          <LopsidedMetricCard label="Preset count" value="3" detail="Operator, botanical, and midnight packs ship with typed usage notes." />
+          <LopsidedMetricCard label="Output" value="CSS vars" detail="Apply the selected visual system to a page, deck export, or generated HTML surface." emphasis="quiet" />
+        </AsymGridShell>
+      </DemoFrame>
+      <Code>{code}</Code>
+    </Page>
+  );
+}
+
 function Guides() {
   return (
     <Page>
@@ -331,6 +711,8 @@ export function App() {
     if (route === 'landing') return <Landing />;
     if (route === 'dashboard') return <Dashboard />;
     if (route === 'primitives') return <Primitives />;
+    if (route === 'showcases') return <Showcases />;
+    if (route === 'themes') return <ThemeFactory />;
     if (route === 'guides') return <Guides />;
     return <Start />;
   }, [route]);

@@ -1,0 +1,41 @@
+# ORCA / HVN Transition
+
+Use this repo as the durable home for anti-AI UI work.
+
+## Ownership
+
+- ORCA owns workflow: spec, plan, build, review, ship, receipt.
+- HVN Stack owns routing: which external capability to use and when.
+- HVN Anti-AI UI owns anti-AI UI rules, React patterns, examples, and UI-specific copy guidance.
+
+## Move Out Of ORCA
+
+Move content here when it is:
+
+- a reusable anti-AI UI rule
+- a React component or UI pattern
+- a landing, dashboard, or primitive example
+- a checklist for avoiding generic AI-looking frontend output
+- microcopy guidance tied to UI surfaces
+
+Keep content in ORCA when it is:
+
+- a workflow gate
+- review routing
+- evidence capture
+- handoff or receipt format
+- generic product-quality language that is not UI-specific
+
+## HVN Stack Role
+
+HVN Stack should reference this repo from its workflow stack, tool stack, attribution, and feature catalog. It should not duplicate the full anti-AI UI checklist.
+
+## Split Rule For Other ORCA Features
+
+If an ORCA-adjacent capability becomes a reusable product surface, library, opinionated pack, or docs site, split it into its own repo. ORCA keeps the workflow hook; HVN Stack keeps the routing pointer.
+
+## Current Source Repos
+
+- ORCA Framework: `https://github.com/henryvn27/orca-framework`
+- HVN Stack: `https://github.com/henryvn27/hvn-stack`
+- HVN Anti-AI UI: `https://github.com/henryvn27/hvn-anti-ai-ui`

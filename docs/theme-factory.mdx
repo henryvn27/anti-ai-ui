@@ -1,0 +1,20 @@
+# Theme Factory
+
+Theme Factory turns an anti-AI UI direction into concrete palette, font, and rhythm tokens.
+
+It is inspired by Anthropic's Apache-2.0 `theme-factory` skill, but implemented here as a small TypeScript surface for HVN Anti-AI UI. Use it when a generated artifact needs a named visual system instead of a generic prompt like "make it modern."
+
+```tsx
+import { createAntiTheme, themeToCssVars } from 'hvn-anti-ai-ui';
+
+const theme = createAntiTheme('midnight');
+const vars = themeToCssVars(theme);
+```
+
+Available presets:
+
+- `operator`: dense release rooms, review queues, and compliance surfaces.
+- `botanical`: editorial product pages and service explainers with organic contrast.
+- `midnight`: technical narratives, debug surfaces, and command-oriented pages.
+
+Each preset includes palette, typography, rhythm, and best-fit usage notes. Apply the CSS variables to a container, then let local components consume the variables where a generated surface needs a complete visual direction.
