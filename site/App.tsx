@@ -16,7 +16,7 @@ import {
   typography
 } from '../src';
 
-type Route = 'start' | 'philosophy' | 'landing' | 'dashboard' | 'primitives' | 'guides';
+type Route = 'start' | 'philosophy' | 'landing' | 'dashboard' | 'primitives' | 'showcases' | 'guides';
 
 const routes: { id: Route; label: string }[] = [
   { id: 'start', label: 'Getting Started' },
@@ -24,6 +24,7 @@ const routes: { id: Route; label: string }[] = [
   { id: 'landing', label: 'Landing Patterns' },
   { id: 'dashboard', label: 'Dashboard Patterns' },
   { id: 'primitives', label: 'Primitives' },
+  { id: 'showcases', label: 'Showcases' },
   { id: 'guides', label: 'Guides' }
 ];
 
@@ -126,6 +127,109 @@ const GuideGrid = styled.div`
 
   @media (max-width: 820px) {
     grid-template-columns: 1fr;
+  }
+`;
+
+const ShowcaseGrid = styled.div`
+  display: grid;
+  gap: clamp(1.2rem, 3vw, 2.2rem);
+  margin-top: ${spacing.xl};
+`;
+
+const ShowcaseFrame = styled.article`
+  border: 1px solid ${color.line};
+  background: ${color.paper};
+
+  > header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: end;
+    padding: clamp(1rem, 3vw, 2rem);
+    border-bottom: 1px solid ${color.line};
+    background: ${color.chalk};
+  }
+
+  h3 {
+    max-width: 16ch;
+    margin: 0;
+    font-family: ${typography.fontDisplay};
+    font-size: clamp(1.9rem, 4.5vw, 3.8rem);
+    line-height: 0.94;
+    letter-spacing: ${typography.tracking.tight};
+  }
+
+  small {
+    color: ${color.oxblood};
+    font-family: ${typography.fontMono};
+    font-size: ${typography.scale.micro};
+    letter-spacing: ${typography.tracking.label};
+    text-align: right;
+  }
+
+  @media (max-width: 760px) {
+    > header {
+      grid-template-columns: 1fr;
+    }
+
+    small {
+      text-align: left;
+    }
+  }
+`;
+
+const MockWindow = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 0.78fr;
+  gap: ${spacing.lg};
+  padding: clamp(1rem, 3vw, 2rem);
+  background:
+    linear-gradient(135deg, rgba(71, 91, 59, 0.14), transparent 48%),
+    ${color.paperDeep};
+
+  @media (max-width: 920px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const SignalStrip = styled.div`
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+  font-family: ${typography.fontMono};
+  font-size: ${typography.scale.caption};
+
+  span {
+    display: block;
+    padding: 0.75rem 0.9rem;
+    background: ${color.chalk};
+    border-left: 2px solid ${color.oxblood};
+  }
+`;
+
+const DenseRows = styled.div`
+  display: grid;
+  gap: 0.45rem;
+
+  div {
+    display: grid;
+    grid-template-columns: 6rem minmax(0, 1fr) auto;
+    gap: 0.8rem;
+    padding: 0.72rem 0.85rem;
+    background: ${color.chalk};
+    color: ${color.ink};
+    font-family: ${typography.fontMono};
+    font-size: ${typography.scale.caption};
+  }
+
+  strong {
+    color: ${color.oxblood};
+  }
+
+  @media (max-width: 680px) {
+    div {
+      grid-template-columns: 1fr;
+    }
   }
 `;
 
@@ -303,6 +407,129 @@ export function PrimitiveSet() {
   );
 }
 
+function Showcases() {
+  const releaseCode = `import { AsymGridShell, LopsidedMetricCard, PanelTilt, SkewedTimeline, TextBlock } from 'hvn-anti-ai-ui';
+
+export function ReleaseRoom() {
+  return (
+    <AsymGridShell aside={<SkewedTimeline items={releaseEvents} />}>
+      <PanelTilt tone="blue">
+        <TextBlock title="Review can start">The reviewer path, privacy URL, and paywall proof are in one room.</TextBlock>
+      </PanelTilt>
+      <LopsidedMetricCard label="Blockers" value="2" detail="Restore purchase screenshot and demo login still missing." emphasis="critical" />
+    </AsymGridShell>
+  );
+}`;
+
+  const intakeCode = `import { PanelTilt, StackOffset, TextBlock, ButtonWarp } from 'hvn-anti-ai-ui';
+
+export function ComplianceIntake() {
+  return (
+    <StackOffset>
+      <PanelTilt>
+        <TextBlock title="No vague permission prompts">Every requested capability needs a plain-language reason.</TextBlock>
+        <ButtonWarp variant="signal">Send to review</ButtonWarp>
+      </PanelTilt>
+    </StackOffset>
+  );
+}`;
+
+  return (
+    <Page>
+      <h2>Showcases</h2>
+      <p>Composed screens that show the library's range: release rooms, compliance intake, and launch narratives without default SaaS layouts.</p>
+      <ShowcaseGrid>
+        <ShowcaseFrame>
+          <header>
+            <h3>App release room</h3>
+            <small>operator dashboard</small>
+          </header>
+          <MockWindow>
+            <AsymGridShell
+              aside={
+                <SkewedTimeline
+                  items={[
+                    { time: '09:12', title: 'Build uploaded', body: 'Version 1.8 is available for internal review.' },
+                    { time: '09:34', title: 'Privacy mismatch', body: 'Camera purpose string no longer matches the capture flow.' },
+                    { time: '10:05', title: 'Reviewer path added', body: 'Demo login and paywall notes now point to exact screens.' }
+                  ]}
+                />
+              }
+              footer={<LopsidedMetricCard label="Ready when" value="2" detail="Screenshots are refreshed and restore purchase proof is attached." emphasis="quiet" />}
+            >
+              <PanelTilt tone="blue">
+                <TextBlock title="Review can start" mood="dense">
+                  One view holds the binary state, reviewer notes, privacy links, and sensitive screenshots.
+                </TextBlock>
+              </PanelTilt>
+              <LopsidedMetricCard label="Blockers" value="2" detail="Restore purchase screenshot and demo login still missing." emphasis="critical" />
+            </AsymGridShell>
+          </MockWindow>
+          <Code>{releaseCode}</Code>
+        </ShowcaseFrame>
+
+        <ShowcaseFrame>
+          <header>
+            <h3>Compliance intake</h3>
+            <small>review flow</small>
+          </header>
+          <MockWindow>
+            <StackOffset>
+              <PanelTilt>
+                <TextBlock title="No vague permission prompts">
+                  Every requested capability needs a plain-language reason, matching product behavior and App Store metadata.
+                </TextBlock>
+                <ButtonWarp variant="signal">Send to review</ButtonWarp>
+              </PanelTilt>
+              <PanelTilt tilt="left" tone="moss">
+                <TextBlock title="Sensitive flows stay visible" mood="dense">
+                  Account deletion, restore purchases, and data export proof sit beside the review decision.
+                </TextBlock>
+              </PanelTilt>
+            </StackOffset>
+            <DenseRows>
+              <div><strong>Camera</strong><span>Used only for receipt capture</span><span>specific</span></div>
+              <div><strong>Account</strong><span>Delete path shown in Settings</span><span>ready</span></div>
+              <div><strong>IAP</strong><span>Restore control needs screenshot</span><span>missing</span></div>
+            </DenseRows>
+          </MockWindow>
+          <Code>{intakeCode}</Code>
+        </ShowcaseFrame>
+
+        <ShowcaseFrame>
+          <header>
+            <h3>Launch narrative</h3>
+            <small>marketing page</small>
+          </header>
+          <AntiHero
+            title="Ship the truth, not the pitch"
+            actionLabel="Open evidence"
+            secondaryLabel="Read release notes"
+            align="right"
+            proof="The hero carries concrete proof: affected workflow, release state, and why the update matters."
+            visual={
+              <SignalStrip>
+                <span>Build 24 passed device smoke</span>
+                <span>Privacy manifest matches permissions</span>
+                <span>Support URL checked at 10:40</span>
+              </SignalStrip>
+            }
+          >
+            A launch page can feel designed without hiding the operational facts that make the release credible.
+          </AntiHero>
+          <OffsetFeatureStrip
+            features={[
+              { title: 'Proof before promise', body: 'The first section names the exact workflow fixed, not a broad claim.', weight: 'wide' },
+              { title: 'Copy with receipts', body: 'Release language points to screenshots, review notes, and support paths.' },
+              { title: 'Asymmetry with intent', body: 'The evidence panel interrupts the hero because it is the point.', weight: 'tall' }
+            ]}
+          />
+        </ShowcaseFrame>
+      </ShowcaseGrid>
+    </Page>
+  );
+}
+
 function Guides() {
   return (
     <Page>
@@ -331,6 +558,7 @@ export function App() {
     if (route === 'landing') return <Landing />;
     if (route === 'dashboard') return <Dashboard />;
     if (route === 'primitives') return <Primitives />;
+    if (route === 'showcases') return <Showcases />;
     if (route === 'guides') return <Guides />;
     return <Start />;
   }, [route]);
